@@ -1,7 +1,8 @@
-const API_BASE_URL = 'https://tera-backend-url.onrender.com/api';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+
+const API_BASE_URL = 'https://taskflow-assignment-nn0m.onrender.com/api';
 
 function App() {
   const [columns, setColumns] = useState([]);
@@ -21,11 +22,11 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const boardRes = await axios.get('http://localhost:5000/api/board-data');
+      const boardRes = await axios.get(`${API_BASE_URL}/board-data`);
       setColumns(boardRes.data.columns);
       setBoard(boardRes.data.boards[0]);
 
-      const tasksRes = await axios.get('http://localhost:5000/api/tasks');
+      const tasksRes = await axios.get(`${API_BASE_URL}/tasks`);
       setTasks(tasksRes.data.tasks);
     } catch (error) {
       console.error(error);
@@ -75,9 +76,9 @@ function App() {
 
     try {
       if (editingTaskId) {
-        await axios.put(`http://localhost:5000/api/tasks/${editingTaskId}`, taskForm);
+        await axios.put(`${API_BASE_URL}/tasks/${editingTaskId}`, taskForm);
       } else {
-        await axios.post('http://localhost:5000/api/tasks', taskForm);
+        await axios.post(`${API_BASE_URL}/tasks`, taskForm);
       }
       setIsModalOpen(false);
       fetchData();
@@ -89,7 +90,7 @@ function App() {
   const handleDelete = async () => {
     if (!editingTaskId) return;
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${editingTaskId}`);
+      await axios.delete(`${API_BASE_URL}/tasks/${editingTaskId}`);
       setIsModalOpen(false);
       fetchData();
     } catch (error) {
